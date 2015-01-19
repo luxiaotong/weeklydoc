@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+	<meta charset="utf-8">
+	<title><?=$title?></title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link href="/application/modules/library/css/bootstrap.min.css" rel="stylesheet">
+	<style type="text/css">
+	body{padding-top: 10px;padding-bottom: 30px;}
+	.weekly_head {padding: 10px 15px 20px 15;text-align: center;}
+	span.weekly_head {cursor:pointer}
+	</style>
+<!--	<link href="application/modules/library/css/bootstrap-responsive.min.css" rel="stylesheet">-->
+<!--	<link rel="stylesheet" href="/application/modules/library/css/style.css" type="text/css" >-->
+	<!--[if lt IE 9]>
+		  <script src="/application/modules/library/script/html5.js"></script>
+	<![endif]-->
+	<!--[if IE 6]>
+				<link href="/application/modules/library/css/ie6.min.css" rel="stylesheet">
+	<![endif]-->
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+	<div class="container">
+		<form class="form-horizontal" role="form" id="weeklyform">
+			<input type="hidden" name="proj_total" value=1 id="proj_total"/>
+			<input type="hidden" name="plan_total" value=1 id="plan_total"/>
+			<div class="weekly_head">
+				<h1>
+				<span id="username" class="weekly_head"></span>
+				<span id="head" class="weekly_head"><?=$weekly_head?></span>
+				</h1>
+			</div>
+			<div class="form-group">
+				<h2>一、线上故障报备</h2>
+			</div>
+			<div class="form-group">
+				<span class="col-sm-2"></span>
+				<div class="col-sm-5">
+					<textarea  name="trouble" class="form-control" rows="2" placeholder="本周由于代码或者系统运维原因造成的BUG或者故障。"></textarea>
+				</div>
+			</div>
+			<div class="form-group">
+				<h2>二、本周工作情况</h2>
+			</div>
+			<div class="form-group" id="projmodule1">
+				<div class="form-group">
+					<label id="projnum1" class="col-sm-2 control-label">1.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;项目:</label>
+					<div class="col-sm-5">
+						<input name="project1" type="text" class="form-control" id="project1">
+					</div>
+					<button id="delprojmodule1" class="btn btn-default btn-sm" type="button" onclick="delprojmodule(1)">
+						<span class="glyphicon glyphicon-trash"></span>
+					</button>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-2 control-label">负责人:</label>
+					<div class="col-sm-5">
+						<input name="whodid1" type="text" class="form-control col-sm-5" id="whodid1">
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-2 control-label">状态:</label>
+					<div class="col-sm-5">
+						<input name="status1" type="text" class="form-control" id="status1">
+					</div>
+					<div class="btn-group">
+						<button data-toggle="dropdown" class="btn btn-default dropdown-toggle" type="button">
+							<span class="glyphicon glyphicon-stats"></span>
+						</button>
+						<ul class="dropdown-menu" role="menu">
+							<li><a id="status_ing1" onclick="setstatus(1, 1)">进行中</a></li>
+							<li><a id="status_ed1" onclick="setstatus(1, 2)">已完成</a></li>
+							<li><a id="status_ol1" onclick="setstatus(1, 3)">已上线</a></li>
+						</ul>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-2 control-label">描述:</label>
+					<div class="col-sm-5">
+						<textarea name="detail1" class="form-control" rows="2" id="detail1"></textarea>
+					</div>
+				</div>
+			</div>
+			<div class="form-group">
+				<span class="col-xs-2"></span>
+				<div class="col-xs-5">
+					<button class="btn btn-default btn-xs  btn-block" type="button" id="addprojmodule">
+						<span class="glyphicon glyphicon-chevron-down"></span> add
+					</button>
+				</div>
+			</div>
+			<div class="form-group">
+				<h2>三、下周工作计划</h2>
+			</div>
+			<div class="form-group" id="planmodule1">
+				<label class="col-sm-2 control-label">1.</label>
+				<div class="col-sm-5">
+					<input name="plan1" type="text" class="form-control" id="plan1">
+				</div>
+			</div>
+			<div class="form-group">
+				<span class="col-xs-2"></span>
+				<div class="col-xs-5">
+					<button class="btn btn-default btn-xs  btn-block" type="button" id="addplan">
+						<span class="glyphicon glyphicon-chevron-down"></span> add
+					</button>
+				</div>
+			</div>
+			<div class="form-group">
+				<h2>四、工作感慨</h2>
+				<div class="form-group">
+					<span class="col-sm-2"></span>
+					<div class="col-sm-5">
+						<textarea  name="essay" class="form-control" rows="5"></textarea>
+					</div>
+				</div>
+			</div>
+
+			<div class="row">
+				<span class="col-sm-2"></span>
+				<div class="col-lg-6">
+					<div class="input-group" id="sendgroup">
+						<input name="emailto" type="text" class="form-control" placeholder="请输入领导的邮箱"/>
+						<span class="input-group-btn">
+						  <button class="btn btn-primary" type="button" id="send">发送</button>
+						</span>
+					</div>
+				</div>
+			</div>
+		</form>
+		<hr>
+		<div class="footer">
+	       	<p class="text-muted" style="text-align:center">京ICP备14010266号</p>
+      	</div>
+	</div> <!-- end container-->
+	<div id="myModal" class="modal fade" aria-hidden="true" aria-labelledby="myModalLabel" role="dialog" style="display: none;">
+		<div class="modal-dialog"  style="width:400px;margin:30%">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h4 id="myModalLabel" class="modal-title">请输入你的名字</h4>
+					<br>
+					<div class="col-md-6">
+					<input id="username" class="form-control" type="text" name="username" autofocus>
+					</div>
+					<button class="btn btn-primary" type="button"  id="savename">保存</button>
+				</div>
+			</div>
+		</div>
+	</div> <!-- end succModal-->
+
+	<div id="succModal" class="modal fade" aria-hidden="true" aria-labelledby="succModalLabel" role="dialog" style="display: none;">
+		<div class="modal-dialog"  style="width:400px;margin:30%">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h4 id="succModalLabel" class="modal-title">发送成功!</h4>
+					<br>
+					<div class="col-md-6">
+					</div>
+					<a class="btn btn-primary" href=""  id="download">下载文件到本地</a>
+				</div>
+			</div>
+		</div>
+	</div> <!-- end succModal-->
+<script src="http://lib.sinaapp.com/js/jquery/1.7/jquery.min.js"></script>
+<script src="/application/modules/library/script/bootstrap.min.js"></script>
+<!--[if IE 6]>
+		 <script src="/application/modules/library//script/ie6.min.js"></script>
+<![endif]-->
+<!--<script src="/application/modules/library/script/app.js"></script>-->
+<script>
+	var username = '';
+
+	// input username when finished load
+	if ( ! username ) {
+		$("div#myModal").modal('show');
+	}
+
+	$("button#savename").click(function(){
+		username = $("input#username").val();
+
+		$("span#username").html(username);
+		if ( ! $("input#userhead").length ) {
+			$("form#weeklyform").prepend('<input type="hidden" name="username" value="' + username + '" id="userhead"/>');
+		} else {
+			$("input#userhead").val(username);
+		}
+
+		$("input#proj_total").val(1);
+		$("input#whodid1").val(username);
+		$("a#download").attr("href", "/index/download?username=" + username);
+
+		$("div#myModal").modal('hide');
+	});
+
+        $("button#addplan").click(function(){   //add a new plan
+            newpos = $(this).parent().parent();
+            for ( var i = 0; ; i ++ ) {
+                j = i + 1;
+                if ( !$("div#planmodule"+j).length ) {
+                    break;
+                }
+            }
+            newplan = $("div#planmodule"+i).clone();
+            newplan.attr("id", "planmodule"+j);
+            newplan.children("label").html(j);
+            newplan.children().children("input").attr({
+                "id" : "plan"+j,
+                "name" : "plan"+j,
+            });
+            newplan.insertBefore(newpos);
+		$("input#plan_total").val(j);
+        });
+
+        $("button#addprojmodule").click(function(){ //add a new project module
+		j = parseInt($("input#proj_total").val()) + 1;
+            	newpos = $(this).parent().parent();
+		newpos.before("<div class=\"form-group\" id=\"projmodule" + j + "\">" +
+                                "<div class=\"form-group\">" +
+                                        "<label id=\"projnum" + j + "\" class=\"col-sm-2 control-label\">" + j + ".&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;项目:</label>" +
+                                        "<div class=\"col-sm-5\">" +
+                                                "<input name=\"project" + j + "\" type=\"text\" class=\"form-control\" id=\"project" + j + "\">" +
+                                        "</div>" +
+                                        "<button id=\"delprojmodule" + j + "\" class=\"btn btn-default btn-sm\" type=\"button\" onclick=\"delprojmodule(" + j + ")\">" +
+                                                "<span class=\"glyphicon glyphicon-trash\"></span>" +
+                                        "</button>" +
+                                "</div>" +
+                                "<div class=\"form-group\">" +
+                                        "<label class=\"col-sm-2 control-label\">负责人:</label>" +
+                                        "<div class=\"col-sm-5\">" +
+                                                "<input name=\"whodid" + j + "\" type=\"text\" class=\"form-control col-sm-5\" id=\"whodid" + j + "\">" +
+                                        "</div>" +
+                                "</div>" +
+                                "<div class=\"form-group\">" +
+                                        "<label class=\"col-sm-2 control-label\">状态:</label>" +
+                                        "<div class=\"col-sm-5\">" +
+                                                "<input name=\"status" + j + "\" type=\"text\" class=\"form-control\" id=\"status" + j + "\">" +
+                                        "</div>" +
+										"<div class=\"btn-group\">" +
+											"<button type=\"button\" class=\"btn btn-default dropdown-toggle\" data-toggle=\"dropdown\">" +
+												"<span class=\"glyphicon glyphicon-stats\"></span>" +
+											"</button>" +
+											"<ul role=\"menu\" class=\"dropdown-menu\">" +
+												"<li><a id=\"status_ing" + j + "\" onclick=\"setstatus(" + j + ", 1)\">进行中</a></li>" +
+												"<li><a id=\"status_ed" + j + "\" onclick=\"setstatus(" + j + ", 2)\">已完成</a></li>" +
+												"<li><a id=\"status_ol" + j + "\" onclick=\"setstatus(" + j + ", 3)\">已上线</a></li>" +
+											"</ul>" +
+										"</div>" +
+                                "</div>" +
+                                "<div class=\"form-group\">" +
+                                        "<label class=\"col-sm-2 control-label\">描述:</label>" +
+                                        "<div class=\"col-sm-5\">" +
+                                                "<textarea name=\"detail" + j + "\" class=\"form-control\" rows=\"2\" id=\"detail" +j + "\"></textarea>" +
+                                        "</div>" +
+                                "</div>" +
+                        "</div>");
+		$("input#proj_total").val(j);
+		$("input#whodid"+j).val(username);
+		/*
+            newpos = $(this).parent().parent();
+            for ( var i = 0; ; i ++ ) {
+                j = i + 1;
+                if ( !$("div#projmodule"+j).length ) {
+                    break;
+                }
+            }
+            newprojmodule = $("div#projmodule"+i).clone();
+            newprojmodule.attr("id", "projmodule"+j);
+		projarr = newprojmodule.children().eq(0).children("label").html().split('.');
+		projlabelstr = j + '.' + projarr[1];
+		newprojmodule.children().eq(0).children("label").html(projlabelstr);
+            newprojmodule.children().eq(0).children().children("input").attr({
+                "id" : "project" + j,
+                "name" : "project" + j,
+            });
+            newprojmodule.children().eq(1).children().children("input").attr({
+                "id" : "whodid" + j,
+                "name" : "whodid" + j,
+            });
+            newprojmodule.children().eq(2).children().children("input").attr({
+                "id" : "status" + j,
+                "name" : "status" + j,
+            })
+            newprojmodule.children().eq(3).children().children("textarea").attr({
+                "id" : "detail" + j,
+                "name" : "detail" + j,
+            });
+            newprojmodule.insertBefore(newpos);
+		$("input#proj_total").val(j);
+		*/
+        });
+
+	/*
+	for ( i = 1; i <= proj_total; i ++ ) {
+		$("button#delprojmodule"+i).click(function(){
+			$("div#projmodule"+i).empty();
+			$("input#proj_total").val(proj_total-1);
+		});
+	}
+	*/
+
+	$("button#send").click(function(){
+
+		//check empty
+		proj_total = $("input#proj_total").val();
+		plan_total = $("input#plan_total").val();
+		for(var i = 1; i <= proj_total; i ++ ) {
+			if ( $.trim( $("input#project"+i).val() ) == '' && $.trim( $("input#whodid"+i).val() ) == '' && $.trim( $("input#status"+i).val() ) == '' && $.trim( $("input#detail"+i).val() ) == '' ) {
+				//全为空的不提示，后台不会处理
+			} else if ( $.trim( $("input#project"+i).val() ) == '' ) {
+				//$("input#project"+i).parent().attr({"class" : "col-sm-5 has-warning"});
+				alert("第" + i +"个项目的名称不能为空");
+				return;
+			} else if ( $.trim( $("input#whodid"+i).val() ) == '' ) {
+				//$("input#whodid"+i).parent().attr({"class" : "col-sm-5 has-warning"});
+				alert("第" + i +"个项目的负责人不能为空");
+				return;
+			} else if ( $.trim( $("input#status"+i).val() ) == '' ) {
+				//$("input#ststus"+i).parent().attr({"class" : "col-sm-5 has-warning"});
+				alert("第" + i +"个项目的状态不能为空");
+				return;
+			} else if ( $.trim( $("textarea#detail"+i).val() ) == '' ) {
+				//$("input#detail"+i).parent().attr({"class" : "col-sm-5 has-warning"});
+				alert("第" + i +"个项目的描述不能为空");
+				return;
+			}
+		}
+		//start post data
+		$.post('/index/send', $("form#weeklyform").serialize(), function(data){
+			if (data.rst == 1) {
+				$("div#succModal").modal('show');
+			} else if( data.errno ) {
+				$("div#sendgroup").before('<div class="alert alert-warning" id="sendalert">' + data.errmsg + '</div>');
+			}
+		});
+	});
+
+	$("a#download").click(function(){
+		$("div#succModal").modal('hide');
+	});
+
+	$("span#head").click(function(){
+		$("div#myModal").modal('show');
+	});
+
+
+	function delprojmodule(id)
+	{
+		$("div#projmodule"+id).remove();
+
+		total = parseInt( $("input#proj_total").val() );
+		for ( i = id + 1; i <= total; i ++ ) {
+			j = i - 1;
+			$("div#projmodule" + i).attr("id", "projmodule"+j);
+			$("label#projnum" + i).html(j + ".&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;项目:");
+			$("label#projnum" + i).attr("id", "projnum"+j);
+			$("input#project" + i).attr({"id" : "project"+j, "name" : "project"+j});
+			$("button#delprojmodule" + i).attr({"id" : "delprojmodule"+j, "onclick" : "delprojmodule("+j+")"});
+			$("input#whodid" + i).attr({"id" : "whodid"+j, "name" : "whodid"+j});
+			$("input#status" + i).attr({"id" : "status"+j, "name" : "status"+j});
+			$("input#detail" + i).attr({"id" : "detail"+j, "name" : "detail"+j});
+			$("a#status_ing" + i).attr({"id" : "status_ing"+j, "onclick" : "setstatus("+j+",1)"});
+			$("a#status_ed" + i).attr({"id" : "status_ed"+j, "onclick" : "setstatus("+j+",2)"});
+			$("a#status_ol" + i).attr({"id" : "status_ol"+j, "onclick" : "setstatus("+j+",3)"});
+		}
+
+		$("input#proj_total").val(total-1);
+	}
+
+	function setstatus(num, status)
+	{
+		statarr = new Array("", "进行中","已完成","已上线");
+		$("input#status"+num).attr("value", statarr[status]);
+	}
+
+</script>
+</body>
+</html>
+
